@@ -13,9 +13,6 @@ Each address type is its own instance. E.g., `svc:/network/ipv6:slaac`.
 
     curl -LOC - https://github.com/bahamat/smartos-ipv6-smf/archive/master.tar.gz
     tar zxf master.tar.gz
-    cd smartos-ipv6-smf-master
-    make install
-    svcadm restart manifest-import
-    svcadm enable ipv6:slaac
+    smartos-ipv6-smf-master/install
 
 The start method will automatically enable `svc:/network/routing/ndp:default`, but does not automatically disable it.

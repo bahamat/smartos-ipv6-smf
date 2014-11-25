@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -o xtrace
+set -o errexit
+
+SRCDIR=$(dirname $0)
+
+! [[ -d /opt/custom/smf ]] && mkdir -p /opt/custom/smf
+cp ${SRCDIR}/ipv6-slaac ${SRCDIR}/ipv6-slaac.xml /opt/custom/smf
+svcadm restart svc:/system/manifest-import:default
+svcadm enable svc:/network/routing/ndp:default
+svcadm enable svc:/network/ipv6:slaac
