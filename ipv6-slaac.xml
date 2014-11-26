@@ -18,9 +18,9 @@
             <service_fmri value="svc:/system/filesystem/local"/>
         </dependency>
 
-        <dependency name="ndp" grouping="require_all" restart_on="error" type="service">
+        <!-- <dependency name="ndp" grouping="require_all" restart_on="error" type="service">
             <service_fmri value="svc:/network/routing/ndp:default"/>
-        </dependency>
+        </dependency> -->
 
 
         <instance name="slaac" enabled="true">
