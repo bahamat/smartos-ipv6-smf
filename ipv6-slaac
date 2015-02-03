@@ -3,6 +3,8 @@
 #set -o errexit
 set -o xtrace
 
+source /lib/svc/share/smf_include.sh
+
 DLADM_LINKS=$(dladm show-link -p -o link,state)
 while read l
 do
