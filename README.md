@@ -1,18 +1,25 @@
 # IPv6 SMF Manifest & Method
 
-Currently only supports SLAAC.
+Supports SLAAC and static addressing via the following services:
 
-Each address type is its own instance. E.g., `svc:/network/ipv6:slaac`.
+* `svc:/network/ipv6:slaac`
+* `svc:/network/ipv6:static`
 
-### To do:
+SLAAC is enabled by default, and is required by all other instances.
 
-* Add static address support
+### TODO:
+
 * Add 6in4 tunnel support (e.g., [Hurricane Electric](http://www.tunnelbroker.net/)).
 
-# Get It
+# Quick Start
+
+Without `git` (suitable for the global-zone or OS zones without git installed):
 
     curl -LOC - https://github.com/bahamat/smartos-ipv6-smf/archive/master.tar.gz
     tar zxf master.tar.gz
     smartos-ipv6-smf-master/install
 
-The start method will automatically enable `svc:/network/routing/ndp:default`, but does not automatically disable it.
+With `git` (suitable for OS zones with git installed):
+
+    git clone https://github.com/bahamat/smartos-ipv6-smf/
+    smartos-ipv6-smf/install

@@ -4,11 +4,7 @@
         Created by Manifold
 --><service_bundle type="manifest" name="ipv6">
 
-    <service name="network/ipv6" type="service" version="1">
-
-
-
-
+    <service name="network/ipv6" type="service" version="1.1">
 
         <dependency name="network" grouping="require_all" restart_on="error" type="service">
             <service_fmri value="svc:/milestone/network:default"/>
@@ -24,7 +20,6 @@
 
 
         <instance name="slaac" enabled="true">
-
 
             <method_context>
 
@@ -48,13 +43,36 @@
         </instance>
 
 
+        <instance name="static" enabled="false">
+
+            <method_context>
+
+            </method_context>
+
+            <exec_method type="method" name="start" exec="/opt/custom/smf/ipv6-static -c %{config_file} start" timeout_seconds="60"/>
+
+            <exec_method type="method" name="stop" exec="/opt/custom/smf/ipv6-static -c  %{config_file} stop" timeout_seconds="60"/>
+
+            <property_group name="startd" type="framework">
+
+                <propval name="duration" type="astring" value="transient"/>
+
+                <propval name="ignore_error" type="astring" value="core,signal"/>
+            </property_group>
+
+            <property_group name="application" type="application">
+                <propval name="config_file" type="astring" value="/opt/custom/smf/ipv6-static.conf"/>
+            </property_group>
+
+        </instance>
+
 
         <stability value="Evolving"/>
 
         <template>
             <common_name>
                 <loctext xml:lang="C">
-                    IPv6 Addresses
+                    IPv6 Address Configuration
                 </loctext>
             </common_name>
         </template>

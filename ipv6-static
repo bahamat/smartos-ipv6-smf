@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#set -o errexit
+set -o xtrace
+
+source /lib/svc/share/smf_include.sh || true
+
+usage() {
+    echo "$0 -c <configuration> {start | stop}"
+}
+
+while getopts "c:" options
+do
+    case $options in 
+        c ) CONFIG="${OPTARG}";;
+        h ) usage;;
+        * ) usage; exit 1;;
+    esac
+done
+
+ACTION=${@:$OPTIND:1}
+
+if ! [[ -f $CONFIG ]]
+then
+    usage; exit 1
+fi
+
+method_start() {
+    while read -a line
+    do
+        ipadm create-addr -t -T static -a local=${line[0]} ${line[1]}
+    done < ${CONFIG}
+}
+
+method_stop() {
+    while read -a line
+    do
+        ipadm delete-addr ${line[1]}
+    done < ${CONFIG}
+}
+
+method_${ACTION}
