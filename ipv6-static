@@ -11,14 +11,14 @@ usage() {
 
 while getopts "c:" options
 do
-    case $options in 
+    case $options in
         c ) CONFIG="${OPTARG}";;
         h ) usage;;
         * ) usage; exit 1;;
     esac
 done
 
-ACTION=${@:$OPTIND:1}
+ACTION=${*:$OPTIND:1}
 
 if ! [[ -f $CONFIG ]]
 then
@@ -28,15 +28,15 @@ fi
 method_start() {
     while read -a line
     do
-        ipadm create-addr -t -T static -a local=${line[0]} ${line[1]}
-    done < ${CONFIG}
+        ipadm create-addr -t -T static -a local="${line[0]}" "${line[1]}"
+    done < "${CONFIG}"
 }
 
 method_stop() {
     while read -a line
     do
-        ipadm delete-addr ${line[1]}
-    done < ${CONFIG}
+        ipadm delete-addr "${line[1]}"
+    done < "${CONFIG}"
 }
 
-method_${ACTION}
+"method_${ACTION}"

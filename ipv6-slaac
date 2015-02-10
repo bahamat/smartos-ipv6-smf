@@ -9,21 +9,21 @@ DLADM_LINKS=$(dladm show-link -p -o link,state)
 while read l
 do
     RE="(.*):up"
-    [[ ${l} =~ $RE ]] && LINKS="${BASH_REMATCH[1]} $LINKS"
+    [[ "${l}" =~ $RE ]] && LINKS="${BASH_REMATCH[1]} $LINKS"
 done <<< "${DLADM_LINKS}"
 
 method_start() {
     for link in $LINKS
     do
-        ipadm create-addr -t -T addrconf ${link}/v6
+        ipadm create-addr -t -T addrconf "${link}"/v6
     done
 }
 
 method_stop() {
     for link in $LINKS
     do
-        ipadm delete-addr ${link}/v6
+        ipadm delete-addr "${link}"/v6
     done
 }
 
-method_$1
+method_"$1"

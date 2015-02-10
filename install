@@ -3,10 +3,10 @@
 set -o xtrace
 set -o errexit
 
-SRCDIR=$(dirname $0)
+SRCDIR="$(dirname "$0")"
 
 ! [[ -d /opt/custom/smf ]] && mkdir -p /opt/custom/smf
-cp ${SRCDIR}/ipv6* /opt/custom/smf/
+cp "${SRCDIR}"/ipv6* /opt/custom/smf/
 svccfg import /opt/custom/smf/ipv6.xml
 svcadm enable svc:/network/routing/ndp:default
 svcadm enable svc:/network/ipv6:slaac
