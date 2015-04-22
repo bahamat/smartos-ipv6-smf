@@ -13,6 +13,9 @@ do
 done <<< "${DLADM_LINKS}"
 
 method_start() {
+    # Services are not recursively enabled at import
+    # https://www.illumos.org/issues/5862
+    svcadm enable svc:/network/routing/ndp:default
     for link in $LINKS
     do
         ipadm create-addr -t -T addrconf "${link}"/v6
