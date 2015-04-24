@@ -13,11 +13,16 @@ SLAAC is enabled by default, and is required by all other instances.
 
 # Quick Start
 
-Without `git` (suitable for the global-zone or OS zones without git installed):
+Without `git` (suitable for SmartOS standalone global-zone, headnode global-zone or OS zones without git installed):
 
-    curl -LOC - https://github.com/bahamat/smartos-ipv6-smf/archive/master.tar.gz
-    tar zxf master.tar.gz
+    curl -k -LOC - https://github.com/bahamat/smartos-ipv6-smf/archive/master.tar.gz
+    gtar zxf master.tar.gz
     smartos-ipv6-smf-master/install
+
+For compute nodes, after set up on the headnode:
+
+    sdc-oneachnode -c -g /root/master.tar.gz -d /root
+    sdc-oneachnode -c '/usr/bin/gtar zxf /root/master.tar.gz -C /root; smartos-ipv6-smf-master/install'
 
 With `git` (suitable for OS zones with git installed):
 
