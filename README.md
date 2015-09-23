@@ -1,3 +1,8 @@
+**Update:** As of 20150917T235937Z full support for IPv6 has been added to vmadm with the      added `ips` and `gateways` parameters. If you're using SmartDataCenter, these parameters won't
+(yet) be added automatically, so the following may be useful to you. But if you're using       SmartOS, see the updated [SmartOS IPv6 configuration wiki][smartos-ipv6-wiki]  page.
+
+[smartos-ipv6-wiki]: https://wiki.smartos.org/display/DOC/Setting+up+IPv6+in+a+Zone
+
 # IPv6 SMF Manifest & Method
 
 Supports SLAAC and static addressing via the following services:
