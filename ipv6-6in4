@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -o errexit
+set -o xtrace
+
+source /lib/svc/share/smf_include.sh || true
+
+fatal () {
+    echo "$@"
+    exit 1
+}
+
+usage() {
+    echo "$0 -c <configuration> {start | stop}"
+}
+
+while getopts "c:" options
+do
+    case $options in
+        c ) CONFIG="${OPTARG}";;
+        h ) usage;;
+        * ) usage; exit 1;;
+    esac
+done
+
+ACTION="${*:$OPTIND:1}"
+
+echo "Config: $CONFIG"
+echo "Action: $ACTION"
+
+if [[ -f "$CONFIG" ]]
+then
+    source "$CONFIG"
+else
+    usage; exit 1
+fi
+
+if [[ -z ${PRE_HOOK} ]] && [[ -x ${PRE_HOOK} ]];
+then
+    ${PRE_HOOK} || fatal "Preconfiguration hook failed"
+fi
+
+method_start() {
+
+    dladm create-iptun -t -T ipv4 -a local="${CLIENT_IPV4}" -a remote="${SERVER_IPV4}" ip0
+    ipadm create-if -t ip0
+    ipadm create-addr -t -T addrconf ip0/v6l
+    ipadm create-addr -t -T static -a "local=${CLIENT_IPV6}/64,remote=${SERVER_IPV6}" ip0/v6s
+    ipadm create-addr -t -T static -a "${ROUTED_64%%::/64}:${HOST_ID}/64" lo0/v6g
+    route add -inet6 default "${SERVER_IPV6}"
+
+}
+
+method_stop () {
+
+    route delete -inet6 default "${SERVER_IPV6%%/64}"
+    ipadm delete-addr lo0/v6g
+    ipadm delete-addr ip0/v6s
+    ipadm delete-addr ip0/v6l
+    ipadm delete-if ip0
+    dladm delete-iptun ip0
+
+}
+
+case $ACTION in
+    start) method_start;;
+    stop) method_stop;;
+esac
