@@ -5,27 +5,23 @@ set -o xtrace
 
 source /lib/svc/share/smf_include.sh
 
-DLADM_LINKS=$(dladm show-link -p -o link,state)
-while read l
-do
-    RE="(.*):up"
-    [[ "${l}" =~ $RE ]] && LINKS="${BASH_REMATCH[1]} $LINKS"
-done <<< "${DLADM_LINKS}"
+nics=( $(sysinfo | json 'Network Interfaces' | json -ka) )
+vnics=( $(sysinfo | json 'Virtual Network Interfaces' | json -ka) )
 
 method_start() {
     # Services are not recursively enabled at import
     # https://www.illumos.org/issues/5862
     svcadm enable svc:/network/routing/ndp:default
-    for link in $LINKS
+    for nic in "${nics[@]}" "${vnics[@]}"
     do
-        ipadm create-addr -t -T addrconf "${link}"/v6
+        ipadm create-addr -t -T addrconf "${nic}"/v6
     done
 }
 
 method_stop() {
-    for link in $LINKS
+    for nic in "${nics[@]}" "${vnics[@]}"
     do
-        ipadm delete-addr "${link}"/v6
+        ipadm delete-addr "${nic}"/v6
     done
 }
 
@@ -34,7 +30,7 @@ action=${*:$OPTIND:1}
 case $action in
     start) method_start;;
     stop)  method_stop;;
-    *)     exit $SMF_EXIT_ERR_FATAL;;
+    *)     exit "$SMF_EXIT_ERR_FATAL";;
 esac
 
 exit 0
