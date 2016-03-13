@@ -5,12 +5,12 @@
 
 # IPv6 SMF Manifest & Method
 
-Supports SLAAC and static addressing via the following services:
+Supports ADDRCONF (SLAAC) and static addressing via the following services:
 
-* `svc:/network/ipv6:slaac`
+* `svc:/network/ipv6:addrconf`
 * `svc:/network/ipv6:static`
 
-SLAAC is enabled by default, and is required by all other instances.
+ADDRCONF is enabled by default, and is required by all other instances.
 
 ### TODO:
 

@@ -19,15 +19,15 @@
         </dependency>
 
 
-        <instance name="slaac" enabled="true">
+        <instance name="addrconf" enabled="true">
 
             <method_context>
 
             </method_context>
 
-            <exec_method type="method" name="start" exec="/opt/custom/smf/ipv6-slaac start" timeout_seconds="60"/>
+            <exec_method type="method" name="start" exec="/opt/custom/smf/ipv6-addrconf start" timeout_seconds="60"/>
 
-            <exec_method type="method" name="stop" exec="/opt/custom/smf/ipv6-slaac stop" timeout_seconds="60"/>
+            <exec_method type="method" name="stop" exec="/opt/custom/smf/ipv6-addrconf stop" timeout_seconds="60"/>
 
             <property_group name="startd" type="framework">
 

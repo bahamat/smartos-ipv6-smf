@@ -9,4 +9,4 @@ SRCDIR="$(dirname "$0")"
 cp "${SRCDIR}"/ipv6* /opt/custom/smf/
 svccfg import /opt/custom/smf/ipv6.xml
 svcadm enable svc:/network/routing/ndp:default
-svcadm enable svc:/network/ipv6:slaac
+svcadm enable svc:/network/ipv6:addrconf
