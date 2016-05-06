@@ -3,7 +3,7 @@
 set -o xtrace
 set -o errexit
 
-SRCDIR="$(dirname "$0")"
+SRCDIR="${0%/*}"
 
 ! [[ -d /opt/custom/smf ]] && mkdir -p /opt/custom/smf
 cp "${SRCDIR}"/ipv6* /opt/custom/smf/

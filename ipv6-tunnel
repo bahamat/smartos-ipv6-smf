@@ -35,7 +35,7 @@ else
     usage; exit 1
 fi
 
-if [[ -z ${PRE_HOOK} ]] && [[ -x ${PRE_HOOK} ]];
+if [[ -n ${PRE_HOOK} ]] && [[ -x ${PRE_HOOK} ]];
 then
     ${PRE_HOOK} || fatal "Preconfiguration hook failed"
 fi
@@ -43,7 +43,7 @@ fi
 method_start() {
 
     dladm create-iptun -t -T ipv4 -a local="${CLIENT_IPV4}" -a remote="${SERVER_IPV4}" ip0
-    ipadm create-if -t ip0
+    ipadm 'create-if' -t ip0
     ipadm create-addr -t -T addrconf ip0/v6l
     ipadm create-addr -t -T static -a "local=${CLIENT_IPV6}/64,remote=${SERVER_IPV6}" ip0/v6s
     ipadm create-addr -t -T static -a "${ROUTED_64%%::/64}:${HOST_ID}/64" lo0/v6g
@@ -57,7 +57,7 @@ method_stop () {
     ipadm delete-addr lo0/v6g
     ipadm delete-addr ip0/v6s
     ipadm delete-addr ip0/v6l
-    ipadm delete-if ip0
+    ipadm 'delete-if' ip0
     dladm delete-iptun ip0
 
 }

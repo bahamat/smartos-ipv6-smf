@@ -72,9 +72,9 @@
 
             </method_context>
 
-            <exec_method type="method" name="start" exec="/opt/custom/smf/ipv6-6in4 -c %{config_file} start" timeout_seconds="300"/>
+            <exec_method type="method" name="start" exec="/opt/custom/smf/ipv6-tunnel -c %{config_file} start" timeout_seconds="300"/>
 
-            <exec_method type="method" name="stop" exec="/opt/custom/smf/ipv6-6in4 -c %{config_file} stop" timeout_seconds="300"/>
+            <exec_method type="method" name="stop" exec="/opt/custom/smf/ipv6-tunnel -c %{config_file} stop" timeout_seconds="300"/>
 
             <property_group name="startd" type="framework">
 
@@ -84,7 +84,7 @@
             </property_group>
 
             <property_group name="application" type="application">
-                <propval name="config_file" type="astring" value="/opt/custom/smf/ipv6-6in4.conf"/>
+                <propval name="config_file" type="astring" value="/opt/custom/smf/ipv6-tunnel.conf"/>
             </property_group>
 
         </instance>
