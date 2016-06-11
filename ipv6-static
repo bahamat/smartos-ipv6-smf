@@ -27,14 +27,14 @@ method_start() {
     while read -a line
     do
         ipadm create-addr -t -T static -a local="${line[0]}" "${line[1]}"
-    done < "${CONFIG}"
+    done < "${config}"
 }
 
 method_stop() {
     while read -a line
     do
         ipadm delete-addr "${line[1]}"
-    done < "${CONFIG}"
+    done < "${config}"
 }
 
 action=${*:$OPTIND:1}
