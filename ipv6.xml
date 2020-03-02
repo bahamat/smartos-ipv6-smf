@@ -45,7 +45,7 @@
 
         <instance name="static" enabled="false">
 
-            <dependency name="ndp" grouping="optional_all" restart_on="none" type="service">
+            <dependency name="ndp" grouping="require_all" restart_on="none" type="service">
                 <service_fmri value="svc:/network/ipv6:addrconf"/>
             </dependency>
 
